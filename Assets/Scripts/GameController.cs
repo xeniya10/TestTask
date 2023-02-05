@@ -1,18 +1,41 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using VContainer.Unity;
 
-public class GameController : MonoBehaviour
+public class GameController : IInitializable, IObserver
 {
-    // Start is called before the first frame update
-    void Start()
+    private readonly Player _player;
+    private readonly PauseScreen _pauseScreen;
+    private readonly PlayScreen _playScreen;
+
+    public GameController(Player player, PauseScreen pauseScreen, PlayScreen playScreen)
     {
-        
+        _player = player;
+        _pauseScreen = pauseScreen;
+        _playScreen = playScreen;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Initialize()
     {
-        
+        _pauseScreen.CreateDropdown();
+        _pauseScreen.AddObserver(this);
+        _playScreen.SubscribeToButton(Pause);
+        _pauseScreen.SubscribeToButton(Play);
+    }
+
+    private void Pause()
+    {
+        _pauseScreen.SetActive(true);
+        Time.timeScale = 0;
+    }
+
+    private void Play()
+    {
+        _pauseScreen.SetActive(false);
+        Time.timeScale = 1;
+    }
+
+    public void ChangeControl(ControlType type)
+    {
+        throw new System.NotImplementedException();
     }
 }

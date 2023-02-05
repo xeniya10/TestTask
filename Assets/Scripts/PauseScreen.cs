@@ -1,20 +1,54 @@
-using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class PauseScreen : MonoBehaviour
+public enum ControlType { Swipe, Drag, Arrow }
+
+public class PauseScreen : BaseScreen, IObservable
 {
-    [SerializeField] private Button _playButton;
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private TMP_Dropdown _controlDropdown;
+    [SerializeField] private ControlType _typeWasActivated;
+
+    private IObserver _observer;
+    private ControlType _currentType;
+    private List<string> _controlTypes = new List<string>();
+
+    public void CreateDropdown()
     {
+        _controlDropdown.options.Clear();
+
+        _controlTypes.Add($"{ControlType.Swipe} Control");
+        _controlTypes.Add($"{ControlType.Drag} Control");
+        _controlTypes.Add($"{ControlType.Arrow} Control");
+
+        foreach (var type in _controlTypes)
+        {
+            _controlDropdown.options.Add(new TMP_Dropdown.OptionData() {text = type}) ;
+        }
         
+        _controlDropdown.captionText.text = _controlDropdown.options[0].text;
+        _controlDropdown.onValueChanged.AddListener(delegate { DropdownItemSelected(_controlDropdown);});
     }
 
-    // Update is called once per frame
-    void Update()
+    private void DropdownItemSelected(TMP_Dropdown dropdown)
     {
-        
+        _typeWasActivated = _currentType;
+        _currentType = (ControlType)_controlDropdown.value;
+        NotifyObservers(_currentType);
+    }
+
+    public void AddObserver(IObserver observer)
+    {
+        _observer = observer;
+    }
+
+    public void RemoveObserver()
+    {
+        _observer = null;
+    }
+
+    public void NotifyObservers(ControlType type)
+    {
+        _observer.ChangeControl(type);
     }
 }

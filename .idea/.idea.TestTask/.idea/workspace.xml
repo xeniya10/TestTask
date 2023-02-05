@@ -8,6 +8,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/BaseScreen.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../Shop Town Game/Assets/Scripts/ControllerComponent/GameLifetimeScope.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -57,6 +58,8 @@
       <option name="presentableId" value="Default" />
       <updated>1675592785287</updated>
       <workItem from="1675592805849" duration="1594000" />
+      <workItem from="1675595451277" duration="10229000" />
+      <workItem from="1675606088627" duration="1557000" />
     </task>
     <servers />
   </component>
