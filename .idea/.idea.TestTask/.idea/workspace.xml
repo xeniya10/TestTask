@@ -11,6 +11,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/BaseScreen.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/7c31addbd77547b8ba5f286e349ddb0d131e00/af/1cc2b852/Vector3.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../Shop Town Game/Assets/Scripts/ControllerComponent/GameLifetimeScope.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/7c31addbd77547b8ba5f286e349ddb0d131e00/f4/bb7984e7/Transform.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/7c31addbd77547b8ba5f286e349ddb0d131e00/08/55c71e28/Mathf.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -40,10 +41,10 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="20356">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" />
+      <option name="pid" value="20356" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
@@ -61,7 +62,7 @@
       <updated>1675592785287</updated>
       <workItem from="1675592805849" duration="1594000" />
       <workItem from="1675595451277" duration="10229000" />
-      <workItem from="1675606088627" duration="28071000" />
+      <workItem from="1675606088627" duration="39679000" />
     </task>
     <servers />
   </component>

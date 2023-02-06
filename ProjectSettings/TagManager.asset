@@ -41,3 +41,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: UI
+    uniqueID: 3566773349
+    locked: 0
+  - name: TransparentFX
+    uniqueID: 4252082813
+    locked: 0

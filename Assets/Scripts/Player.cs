@@ -3,10 +3,11 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Player : MonoBehaviour, IDragHandler, IPointerDownHandler
+public class Player : BaseObject, IDragHandler, IPointerDownHandler
 {
     [SerializeField] private int _maxDistance;
     [SerializeField] private int _minDistance;
+    [SerializeField] private int _forwardSpeed;
     [SerializeField] private float _directionalSpeed;
     [SerializeField] private float _swipeDuration;
     [SerializeField] private float _swipeSteps;
@@ -28,6 +29,8 @@ public class Player : MonoBehaviour, IDragHandler, IPointerDownHandler
     
     private void Update()
     {
+        transform.Translate(transform.forward * Time.deltaTime * _forwardSpeed);
+        
         if (SelectedType==ControlType.Arrow)
         {
             var inputX = Input.GetAxis("Horizontal");
@@ -51,7 +54,7 @@ public class Player : MonoBehaviour, IDragHandler, IPointerDownHandler
         if (SelectedType == ControlType.Drag)
         {
             _startPosition = transform.localPosition;
-            var xEndPosition = _startPosition.x +
+            var xEndPosition = _startPosition.x -
                 (GetWoldPoint(_mainCamera, eventData.position, _zPosition) + _offset).normalized.x;
             _endPosition = new Vector3(Mathf.Clamp(xEndPosition, _minDistance, _maxDistance), _startPosition.y, _startPosition.z);
             transform.localPosition = Vector3.Lerp(_startPosition, _endPosition, _directionalSpeed * Time.deltaTime);

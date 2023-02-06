@@ -4,18 +4,23 @@ using VContainer.Unity;
 public class GameController : IInitializable, IObserver
 {
     private readonly Player _player;
+    private readonly RoadManager _road;
+    private readonly CameraController _cameraController;
     private readonly PauseScreen _pauseScreen;
     private readonly PlayScreen _playScreen;
 
-    public GameController(Player player, PauseScreen pauseScreen, PlayScreen playScreen)
+    public GameController(Player player, RoadManager road, CameraController cameraController, PauseScreen pauseScreen, PlayScreen playScreen)
     {
         _player = player;
+        _road = road;
+        _cameraController = cameraController;
         _pauseScreen = pauseScreen;
         _playScreen = playScreen;
     }
 
     public void Initialize()
     {
+        _cameraController.Inject(_player);
         _playScreen.SwipeEvent += _player.OnSwipe;
         
         _pauseScreen.AddObserver(this);
@@ -28,6 +33,8 @@ public class GameController : IInitializable, IObserver
     {
         _pauseScreen.SetActive(true);
         _playScreen.SetActive(false);
+        _player.SetActive(false);
+        _road.SetActive(false);
         Time.timeScale = 0;
     }
 
@@ -35,6 +42,8 @@ public class GameController : IInitializable, IObserver
     {
         _pauseScreen.SetActive(false);
         _playScreen.SetActive(true);
+        _player.SetActive(true);
+        _road.SetActive(true);
         Time.timeScale = 1;
     }
 
