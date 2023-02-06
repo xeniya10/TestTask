@@ -28,6 +28,8 @@ public class PauseScreen : BaseScreen, IObservable
         
         _controlDropdown.captionText.text = _controlDropdown.options[0].text;
         _controlDropdown.onValueChanged.AddListener(delegate { DropdownItemSelected(_controlDropdown);});
+        
+        NotifyObservers(ControlType.Swipe);
     }
 
     private void DropdownItemSelected(TMP_Dropdown dropdown)

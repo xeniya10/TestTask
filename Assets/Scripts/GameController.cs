@@ -16,8 +16,10 @@ public class GameController : IInitializable, IObserver
 
     public void Initialize()
     {
-        _pauseScreen.CreateDropdown();
+        _playScreen.SwipeEvent += _player.OnSwipe;
+        
         _pauseScreen.AddObserver(this);
+        _pauseScreen.CreateDropdown();
         _playScreen.SubscribeToButton(Pause);
         _pauseScreen.SubscribeToButton(Play);
     }
@@ -25,17 +27,28 @@ public class GameController : IInitializable, IObserver
     private void Pause()
     {
         _pauseScreen.SetActive(true);
+        _playScreen.SetActive(false);
         Time.timeScale = 0;
     }
 
     private void Play()
     {
         _pauseScreen.SetActive(false);
+        _playScreen.SetActive(true);
         Time.timeScale = 1;
     }
 
     public void ChangeControl(ControlType type)
     {
-        throw new System.NotImplementedException();
+        _player.SelectedType = type;
+        
+        if (type == ControlType.Swipe)
+        {
+            _playScreen.SwipeIsActive = true;
+        }
+        else
+        {
+            _playScreen.SwipeIsActive = false;
+        }
     }
 }
