@@ -1,6 +1,8 @@
 using UnityEngine;
 using VContainer.Unity;
 
+public enum ControlType { Swipe, Drag, Arrow }
+
 public class GameController : IInitializable, IObserver
 {
     private readonly Player _player;
@@ -53,7 +55,7 @@ public class GameController : IInitializable, IObserver
         _road.SetActive(isPlayed);
     }
 
-    public void ChangeControl(ControlType type)
+    public void Update(ControlType type)
     {
         _player.SelectedType = type;
         _playScreen.SwipeIsActivated = type == ControlType.Swipe;

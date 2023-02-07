@@ -2,8 +2,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public enum ControlType { Swipe, Drag, Arrow }
-
 public class PauseScreen : BaseScreen, IObservable
 {
     [SerializeField] private TMP_Dropdown _controlDropdown;
@@ -23,16 +21,18 @@ public class PauseScreen : BaseScreen, IObservable
 
         foreach (var type in _controlTypes)
         {
-            _controlDropdown.options.Add(new TMP_Dropdown.OptionData() {text = type}) ;
+            var item = new TMP_Dropdown.OptionData();
+            item.text = type;
+            _controlDropdown.options.Add(item);
         }
         
         _controlDropdown.captionText.text = _controlDropdown.options[0].text;
-        _controlDropdown.onValueChanged.AddListener(delegate { DropdownItemSelected(_controlDropdown);});
+        _controlDropdown.onValueChanged.AddListener(_ => DropdownItemSelected());
         
         NotifyObserver(ControlType.Swipe);
     }
 
-    private void DropdownItemSelected(TMP_Dropdown dropdown)
+    private void DropdownItemSelected()
     {
         _typeWasActivated = _currentType;
         _currentType = (ControlType)_controlDropdown.value;
@@ -51,6 +51,6 @@ public class PauseScreen : BaseScreen, IObservable
 
     public void NotifyObserver(ControlType type)
     {
-        _observer.ChangeControl(type);
+        _observer.Update(type);
     }
 }

@@ -14,15 +14,15 @@ public class PointCalculator
 
     public void CalculateOffset(Vector3 objectPosition, Vector2 eventPosition)
     {
-        _offset = objectPosition - GetWoldPoint(_mainCamera, eventPosition, objectPosition.z);
+        _offset = objectPosition - GetWorldPoint(_mainCamera, eventPosition, objectPosition.z);
     }
 
     public Vector3 GetPoint(Vector3 objectPosition, Vector2 eventPosition)
     {
-        return GetWoldPoint(_mainCamera, eventPosition, objectPosition.z) + _offset;
+        return GetWorldPoint(_mainCamera, eventPosition, objectPosition.z) + _offset;
     }
 
-    private Vector3 GetWoldPoint(Camera camera, Vector3 eventPosition, float zPosition)
+    private Vector3 GetWorldPoint(Camera camera, Vector3 eventPosition, float zPosition)
     {
         var plane = new Plane(Vector3.forward, new Vector3(0, 0, zPosition));
         var ray = camera.ScreenPointToRay(eventPosition);

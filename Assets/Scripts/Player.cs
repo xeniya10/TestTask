@@ -9,7 +9,7 @@ public class Player : BaseObject, IDragHandler, IPointerDownHandler
     [SerializeField] private int _minDistance;
     [SerializeField] private int _forwardSpeed;
     [SerializeField] private float _directionalSpeed;
-    [SerializeField] private float _swipeDuration;
+    [SerializeField] private float _swipeDurationSeconds;
     [SerializeField] private float _swipeSteps;
 
     private PointCalculator _calculator;
@@ -28,7 +28,7 @@ public class Player : BaseObject, IDragHandler, IPointerDownHandler
     {
         transform.Translate(transform.forward * Time.deltaTime * _forwardSpeed);
         
-        if (SelectedType==ControlType.Arrow)
+        if (SelectedType == ControlType.Arrow)
         {
             var inputX = Input.GetAxis("Horizontal");
             _startPosition = transform.position;
@@ -64,7 +64,7 @@ public class Player : BaseObject, IDragHandler, IPointerDownHandler
             var swipe = _swipeSteps;
             if (swipeLength < 0)
             {
-                swipe*=-1;
+                swipe *= -1;
             }
             StartCoroutine(Lerp(swipe));
         }
@@ -76,10 +76,10 @@ public class Player : BaseObject, IDragHandler, IPointerDownHandler
         _startPosition = transform.position;
         _endPosition = new Vector3(Mathf.Clamp(_startPosition.x + swipeStep, _minDistance, _maxDistance), _startPosition.y, _startPosition.z);
 
-        while (currentTime < _swipeDuration)
+        while (currentTime < _swipeDurationSeconds)
         {
             currentTime += Time.deltaTime;
-            transform.position = Vector3.Lerp(_startPosition,_endPosition,Mathf.SmoothStep(0,1, currentTime/_swipeDuration));
+            transform.position = Vector3.Lerp(_startPosition,_endPosition,Mathf.SmoothStep(0,1, currentTime/_swipeDurationSeconds));
             yield return null;
         }
     }
