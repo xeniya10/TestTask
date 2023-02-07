@@ -1,26 +1,36 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using VContainer;
 
 public class RoadManager : BaseObject
 {
     [SerializeField] private Transform _roadSection;
-    [SerializeField] private int _sectionGenerationTimer;
-    [SerializeField] private int _sectionDestructionTimer;
     [SerializeField] private Vector3 _startPosition;
     [SerializeField] private Vector3 _scale;
     [SerializeField] private int _numberOfSections;
 
+    private Timer _timer;
     private List<Transform> _sections = new List<Transform>();
 
+    [Inject] public void Inject(Timer timer)
+    {
+        _timer = timer;
+    }
+    
     private void OnEnable()
     {
         if (_sections.Count == 0)
         {
             GenerateSections();
         }
-        
-        StartCoroutine(GenerateSection());
+    }
+
+    private void Update()
+    {
+        if (Time.time > _timer.TimerTime)
+        {
+            MoveSection();
+        }
     }
 
     private void GenerateSections()
@@ -28,20 +38,44 @@ public class RoadManager : BaseObject
         for (var i = 0; i < _numberOfSections; i++)
         {
             var section = Instantiate(_roadSection, transform);
-            section.gameObject.SetActive(false);
+            _roadSection.localScale = _scale;
+            SetPosition(section);
             _sections.Add(section);
         }
+
+        _timer.InitTimer();
+        _timer.StartTimer();
     }
 
-    private IEnumerator GenerateSection()
+    private void MoveSection()
     {
-        while (true)
-        {
-            _roadSection.localScale = _scale;
-            _startPosition.z += _scale.z;
-            // section.localPosition = _startPosition;
+        var firstSection = FindFirstSection();
+        SetPosition(firstSection);
+        _timer.StartTimer();
+    }
 
-            yield return new WaitForSeconds(_sectionGenerationTimer);
+    private void SetPosition(Transform section)
+    {
+        _startPosition.z += _scale.z;
+        section.localPosition = _startPosition;
+    }
+
+    private Transform FindFirstSection()
+    {
+        // Lazy solution
+        // var minZ = _sections.Min(section => section.localPosition.z);
+        // var firstSection = _sections.Find(section => section.localPosition.z == minZ);
+        
+        Transform firstSection = null;
+        
+        foreach (var section in _sections)
+        {
+            if (firstSection == null || section.position.z < firstSection.position.z)
+            {
+                firstSection = section;
+            }
         }
+
+        return firstSection;
     }
 }

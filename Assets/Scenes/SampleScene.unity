@@ -373,19 +373,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 218068101}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 933947285}
-        m_TargetAssemblyTypeName: PauseScreen, Assembly-CSharp
-        m_MethodName: Show
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &218068101
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -433,9 +421,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 498258282}
-  - component: {fileID: 498258283}
   - component: {fileID: 498258285}
   - component: {fileID: 498258286}
+  - component: {fileID: 498258283}
   m_Layer: 0
   m_Name: PlayScreen
   m_TagString: Untagged
@@ -477,7 +465,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _actionButton: {fileID: 218068100}
-  SwipeIsActive: 0
 --- !u!222 &498258285
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -701,6 +688,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 523517744}
   m_CullTransparentMesh: 1
+--- !u!1 &537961052
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 537961054}
+  - component: {fileID: 537961053}
+  m_Layer: 0
+  m_Name: Timer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &537961053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 537961052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a72dbb4438e1aae4db06b3adf95ee237, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _timeBetweenSectionGenerationInSeconds: 60
+--- !u!4 &537961054
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 537961052}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2.7569757, y: 5.2082043, z: 7.8288226}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1296977283}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1655,7 +1687,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 537961054}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1677,9 +1710,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _roadSection: {fileID: 4216337278744571076, guid: d9f47b1264ee915469460582c51e9417, type: 3}
-  _sectionGenerationTimer: 10
   _startPosition: {x: 0, y: 0, z: -70}
   _scale: {x: 20, y: 0.5, z: 100}
+  _numberOfSections: 5
 --- !u!1 &1305769467
 GameObject:
   m_ObjectHideFlags: 0
@@ -2277,19 +2310,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1600613264}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 933947285}
-        m_TargetAssemblyTypeName: PauseScreen, Assembly-CSharp
-        m_MethodName: Hide
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &1608127527
 GameObject:
   m_ObjectHideFlags: 0
@@ -2362,6 +2383,7 @@ MonoBehaviour:
   autoInjectGameObjects: []
   _player: {fileID: 1918255269}
   _road: {fileID: 1296977284}
+  _timer: {fileID: 537961053}
   _camera: {fileID: 963194230}
   _pauseScreen: {fileID: 933947285}
   _playScreen: {fileID: 498258283}
@@ -2705,6 +2727,7 @@ MonoBehaviour:
   _maxDistance: 6
   _minDistance: -6
   _forwardSpeed: 2
+  _dragSpeed: 20
   _directionalSpeed: 20
   _swipeDuration: 0.2
   _swipeSteps: 3

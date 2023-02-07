@@ -29,14 +29,14 @@ public class PauseScreen : BaseScreen, IObservable
         _controlDropdown.captionText.text = _controlDropdown.options[0].text;
         _controlDropdown.onValueChanged.AddListener(delegate { DropdownItemSelected(_controlDropdown);});
         
-        NotifyObservers(ControlType.Swipe);
+        NotifyObserver(ControlType.Swipe);
     }
 
     private void DropdownItemSelected(TMP_Dropdown dropdown)
     {
         _typeWasActivated = _currentType;
         _currentType = (ControlType)_controlDropdown.value;
-        NotifyObservers(_currentType);
+        NotifyObserver(_currentType);
     }
 
     public void AddObserver(IObserver observer)
@@ -49,7 +49,7 @@ public class PauseScreen : BaseScreen, IObservable
         _observer = null;
     }
 
-    public void NotifyObservers(ControlType type)
+    public void NotifyObserver(ControlType type)
     {
         _observer.ChangeControl(type);
     }

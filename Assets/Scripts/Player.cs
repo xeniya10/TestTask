@@ -12,19 +12,16 @@ public class Player : BaseObject, IDragHandler, IPointerDownHandler
     [SerializeField] private float _swipeDuration;
     [SerializeField] private float _swipeSteps;
 
+    private PointCalculator _calculator;
+
     private Vector3 _startPosition;
     private Vector3 _endPosition;
-    
-    private Camera _mainCamera;
-    private float _zPosition;
-    private Vector3 _offset;
 
     [NonSerialized] public ControlType SelectedType = ControlType.Swipe;
     
     private void Start()
     {
-        _mainCamera = Camera.main;
-        _zPosition = transform.position.z;
+        _calculator = new PointCalculator();
     }
     
     private void Update()
@@ -34,10 +31,10 @@ public class Player : BaseObject, IDragHandler, IPointerDownHandler
         if (SelectedType==ControlType.Arrow)
         {
             var inputX = Input.GetAxis("Horizontal");
-            _startPosition = transform.localPosition;
+            _startPosition = transform.position;
             _endPosition = new Vector3(Mathf.Clamp(_startPosition.x + inputX, _minDistance, _maxDistance),
                 _startPosition.y, _startPosition.z);
-            transform.localPosition = Vector3.Lerp(_startPosition, _endPosition, _directionalSpeed * Time.deltaTime);
+            transform.position = Vector3.Lerp(_startPosition, _endPosition, _directionalSpeed * Time.deltaTime);
         }
     }
 
@@ -45,7 +42,7 @@ public class Player : BaseObject, IDragHandler, IPointerDownHandler
     {
         if (SelectedType == ControlType.Drag)
         {
-            _offset = transform.position - GetWoldPoint(_mainCamera,eventData.position, _zPosition);
+            _calculator.CalculateOffset(transform.position, eventData.position);
         }
     }
 
@@ -53,11 +50,10 @@ public class Player : BaseObject, IDragHandler, IPointerDownHandler
     {
         if (SelectedType == ControlType.Drag)
         {
-            _startPosition = transform.localPosition;
-            var xEndPosition = _startPosition.x -
-                (GetWoldPoint(_mainCamera, eventData.position, _zPosition) + _offset).normalized.x;
-            _endPosition = new Vector3(Mathf.Clamp(xEndPosition, _minDistance, _maxDistance), _startPosition.y, _startPosition.z);
-            transform.localPosition = Vector3.Lerp(_startPosition, _endPosition, _directionalSpeed * Time.deltaTime);
+            _startPosition = transform.position;
+            _endPosition = new Vector3(Mathf.Clamp(
+                _calculator.GetPoint(transform.position, eventData.position).x, _minDistance, _maxDistance), _startPosition.y, _startPosition.z);
+            transform.position = Vector3.Lerp(_startPosition, _endPosition, _directionalSpeed * Time.deltaTime);
         }
     }
 
@@ -77,23 +73,14 @@ public class Player : BaseObject, IDragHandler, IPointerDownHandler
     IEnumerator Lerp(float swipeStep)
     {
         float currentTime = 0;
-        _startPosition = transform.localPosition;
-        var xEndPosition = Mathf.Clamp(_startPosition.x + swipeStep, _minDistance, _maxDistance);
-        _endPosition = new Vector3(xEndPosition, _startPosition.y, _startPosition.z);
+        _startPosition = transform.position;
+        _endPosition = new Vector3(Mathf.Clamp(_startPosition.x + swipeStep, _minDistance, _maxDistance), _startPosition.y, _startPosition.z);
 
         while (currentTime < _swipeDuration)
         {
             currentTime += Time.deltaTime;
-            transform.localPosition = Vector3.Lerp(_startPosition,_endPosition,Mathf.SmoothStep(0,1, currentTime/_swipeDuration));
+            transform.position = Vector3.Lerp(_startPosition,_endPosition,Mathf.SmoothStep(0,1, currentTime/_swipeDuration));
             yield return null;
         }
-    }
-    
-    private Vector3 GetWoldPoint(Camera camera, Vector3 screenPosition, float zPosition)
-    {
-        var plane = new Plane(Vector3.forward, new Vector3(0, 0, zPosition));
-        var ray = camera.ScreenPointToRay(screenPosition);
-        plane.Raycast(ray, out float enterDistance);
-        return ray.GetPoint(enterDistance);
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 
 public class PlayScreen : BaseScreen, IPointerDownHandler, IPointerUpHandler
 {
-    public bool SwipeIsActive;
+    [NonSerialized] public bool SwipeIsActivated;
     public Action<float> SwipeEvent;
     
     private Vector2 _startPointerPosition;
@@ -12,7 +12,7 @@ public class PlayScreen : BaseScreen, IPointerDownHandler, IPointerUpHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (SwipeIsActive)
+        if (SwipeIsActivated)
         {
             _startPointerPosition = eventData.position;
         }
@@ -20,7 +20,7 @@ public class PlayScreen : BaseScreen, IPointerDownHandler, IPointerUpHandler
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        if (SwipeIsActive)
+        if (SwipeIsActivated)
         {
             _endPointerPosition = eventData.position;
             var swipeLength = _endPointerPosition.x - _startPointerPosition.x;
